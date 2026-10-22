@@ -1,0 +1,13 @@
+{
+  "commands": [
+    { "version": 1, "kind": "command", "id": "cmd_delete", "type": "bot.delete", "payload": { "botId": "bot_retired" } },
+    { "version": 1, "kind": "command", "id": "cmd_chinese", "type": "message.send", "payload": { "clientMessageId": "phone-msg-1", "roomId": "room_team", "parts": [{ "type": "mention", "botId": "bot_whale", "label": "鲸鱼 🐳" }, { "type": "text", "text": "检查测试\n```ts\nconst n = 1;\n```" }], "replyToMessageId": "message_context" } },
+    { "version": 1, "kind": "command", "id": "cmd_ack", "type": "sync.ack", "payload": { "roomId": "room_team", "seq": 9007199254740991 } },
+    { "version": 1, "kind": "command", "id": "cmd_background", "type": "message.send", "payload": { "clientMessageId": "background-1", "roomId": "room_team", "parts": [{ "type": "text", "text": "仅背景，不唤醒助理。" }] } }
+  ],
+  "events": [
+    { "version": 1, "kind": "event", "roomId": "room_team", "seq": 42, "type": "message.created", "payload": { "id": "message_context", "roomId": "room_team", "seq": 42, "authorKind": "person", "authorId": "person_alice", "authorName": "Alice", "parts": [{ "type": "text", "text": "Background" }], "text": "Background", "createdAt": "2026-10-21T00:00:00.000Z", "source": "chat" } },
+    { "version": 1, "kind": "event", "roomId": "room_team", "type": "stream.updated", "payload": { "roomId": "room_team", "bindingId": "binding_whale", "invocationId": "invocation_1", "messageId": "message_draft", "attemptId": "attempt_1", "streamRevision": 1, "index": 3, "text": "Checking tests…" } },
+    { "version": 1, "kind": "event", "roomId": "room_team", "personId": "person_alice", "type": "room.access.revoked", "payload": { "roomId": "room_team", "personId": "person_alice" } }
+  ]
+}

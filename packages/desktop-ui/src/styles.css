@@ -1,0 +1,71 @@
+.dsh-bots-app {
+  --bots-bg: var(--dsw-alias-bg-base, #fff);
+  --bots-surface: var(--dsw-alias-interactive-bg-hover-solid, #f6f7f8);
+  --bots-text: var(--dsw-alias-label-primary, #20232a);
+  --bots-muted: var(--dsw-alias-label-tertiary, #69717d);
+  --bots-line: var(--dsw-alias-border-l2, #e2e5e9);
+  --bots-accent: var(--dsw-alias-state-business-primary, #4176e6);
+  --bots-hover: var(--dsw-alias-interactive-bg-hover, #edf1f7);
+  height: 100%; min-height: 0; display: flex; flex-direction: column;
+  font: 14px/1.5 var(--dsw-font-family, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  color: var(--bots-text); background: var(--bots-bg); overflow: hidden; text-align: start;
+}
+.dsh-bots-app *, .bots-dialog * { box-sizing: border-box; }
+.dsh-bots-app h1:not(:where([data-native-dsh] *)), .dsh-bots-app h2:not(:where([data-native-dsh] *)), .dsh-bots-app h3:not(:where([data-native-dsh] *)), .bots-dialog h2, .bots-dialog h3 { margin: 0; font-weight: 650; letter-spacing: -.02em; }
+.dsh-bots-app h1:not(:where([data-native-dsh] *)) { font-size: 17px; white-space: nowrap; }
+.dsh-bots-app h2:not(:where([data-native-dsh] *)), .bots-dialog h2 { font-size: 18px; }
+.dsh-bots-app h3:not(:where([data-native-dsh] *)), .bots-dialog h3 { font-size: 15px; }
+:where(.dsh-bots-app, .bots-dialog) button:not(:where([data-native-dsh] *)) {
+  border: 1px solid var(--bots-line); border-radius: 8px; color: var(--bots-text); background: var(--bots-bg);
+  min-height: 32px; padding: 5px 11px; cursor: pointer; font: inherit; line-height: 1.4;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.dsh-bots-app button:not(:where([data-native-dsh] *)):hover:not(:disabled), .bots-dialog button:not(:where([data-native-dsh] *)):hover:not(:disabled) { background: var(--bots-hover); }
+.dsh-bots-app button:not(:where([data-native-dsh] *)):disabled, .bots-dialog button:disabled { opacity: .45; cursor: not-allowed; }
+.dsh-bots-app button:not(:where([data-native-dsh] *)).bots-primary, .bots-dialog button.bots-primary { background: var(--bots-accent); border-color: transparent; color: white; }
+.dsh-bots-app button:not(:where([data-native-dsh] *)).bots-primary:hover:not(:disabled), .bots-dialog button.bots-primary:hover:not(:disabled) { filter: brightness(1.08); }
+.dsh-bots-app button:not(:where([data-native-dsh] *)).bots-danger, .bots-dialog button.bots-danger { color: var(--dsw-alias-state-error-label, #c74d4d); }
+.dsh-bots-app :is(button,input,select,textarea,a):focus-visible, .bots-dialog :is(button,input,select,textarea,a):focus-visible { outline: 2px solid var(--bots-accent); outline-offset: 2px; }
+.dsh-bots-app input:not(:where([data-native-dsh] *)):not([type=checkbox]):not([type=radio]), .dsh-bots-app textarea:not(:where([data-native-dsh] *)), .dsh-bots-app select:not(:where([data-native-dsh] *)), .bots-dialog input:not([type=checkbox]):not([type=radio]), .bots-dialog textarea, .bots-dialog select {
+  width: 100%; background: var(--bots-bg); border: 1px solid var(--bots-line); border-radius: 8px; padding: 8px 10px;
+  color: var(--bots-text); font: inherit; min-height: 36px;
+}
+.dsh-bots-app textarea:not(:where([data-native-dsh] *)), .bots-dialog textarea { resize: vertical; }
+.dsh-bots-app input:not(:where([data-native-dsh] *))[type=checkbox], .dsh-bots-app input:not(:where([data-native-dsh] *))[type=radio], .bots-dialog input[type=checkbox], .bots-dialog input[type=radio] { accent-color: var(--bots-accent); width: 16px; height: 16px; flex: none; }
+.dsh-bots-app fieldset:not(:where([data-native-dsh] *)), .bots-dialog fieldset { min-width: 0; border: 0; padding: 0; margin: 0; }
+.dsh-bots-app small:not(:where([data-native-dsh] *)), .bots-dialog small { display: block; color: var(--bots-muted); font-size: 12px; }
+.dsh-bots-app p:not(:where([data-native-dsh] *, [data-composer-input] *)), .bots-dialog p { margin: 8px 0 14px; }
+.dsh-bots-app .bots-primary:focus-visible { outline-color: var(--bots-text); }
+.bots-inline { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.bots-avatar { flex: none; display: block; }
+.bots-field { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; font-size: 12px; }
+.bots-field > span { font-weight: 550; }
+.bots-field small, .bots-hint { font-size: 12px; color: var(--bots-muted); }
+.bots-check { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; margin: 8px 0; }
+.bots-check input { margin-top: 1px; }
+.bots-check small { margin-top: 3px; font-size: 10px; overflow-wrap: anywhere; }
+.bots-dialog { padding: 0; border: 1px solid var(--bots-line); border-radius: 16px; width: 520px; max-width: calc(100vw - 36px); max-height: calc(100vh - 60px); overflow-y: auto; background: var(--bots-bg); color: var(--bots-text); font: inherit; box-shadow: 0 20px 80px #0003; }
+.bots-dialog::backdrop { background: #0006; backdrop-filter: blur(3px); }
+.bots-dialog > header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: var(--bots-bg); border-bottom: 1px solid var(--bots-line); }
+.bots-dialog > form, .bots-dialog > .bots-ticket, .bots-dialog > .bots-details { padding: 6px 24px 24px; }
+.bots-dialog footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.bots-avatar-editor { display: flex; gap: 24px; align-items: center; padding: 16px 0 4px; }
+.bots-avatar-editor [role=radiogroup] { display: flex; gap: 8px; flex-wrap: wrap; max-width: 190px; }
+.bots-dialog .bots-color { width: 36px; height: 36px; padding: 0; border-radius: 50%; color: white; font-size: 17px; border: 2px solid transparent; }
+.bots-dialog .bots-color[aria-checked=true] { outline: 2px solid var(--bots-text); outline-offset: 2px; }
+.bots-ticket { text-align: center; }
+.bots-ticket > img { max-width: 100%; height: auto; background: white; border-radius: 10px; }
+.bots-ticket textarea { font: 11px/1.5 ui-monospace, monospace; margin-top: 6px; }
+.bots-details h3 { margin-block: 24px 10px; }
+.bots-details > fieldset > button { margin-top: 12px; }
+.bots-member { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-bottom: 1px solid var(--bots-line); padding: 11px 0; }
+.bots-member strong { font-size: 12px; margin-inline-end: 6px; }
+.bots-member button { font-size: 10px; }
+.bots-binding { border: 1px solid var(--bots-line); border-radius: 11px; padding: 13px; margin: 12px 0; }
+.bots-binding > small { margin: 7px 0; }
+.bots-binding .bots-actions button { font-size: 10px; }
+.bots-grants { margin-top: 14px !important; padding-top: 12px !important; border-top: 1px solid var(--bots-line) !important; }
+.bots-grants legend { font-size: 11px; color: var(--bots-muted); }
+.bots-danger-zone { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--bots-line); }
+.bots-context-status { display: flex; flex-wrap: wrap; gap: 8px; font-size: 10px; }
+@media (prefers-reduced-motion: reduce) { .dsh-bots-app *, .bots-dialog * { transition: none !important; scroll-behavior: auto !important; } }

@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "dsh-bots/types": [
+        "./src/types.ts"
+      ],
+      "dsh-bots/protocol": [
+        "./packages/protocol/src/index.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-chat/src/*.tsx": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-chat/lib/types/*.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-chat/src/*.ts": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-chat/lib/types/*.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-conversation/src/*.tsx": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/*.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-conversation/src/*.ts": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/*.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-input-trigger/src/*.tsx": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-input-trigger/lib/types/*.d.ts"
+      ],
+      "@deepseek-ai/dsh-client-ui-input-trigger/src/*.ts": [
+        "./node_modules/@deepseek-ai/dsh-client-ui-input-trigger/lib/types/*.d.ts"
+      ]
+    },
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "node",
+      "react"
+    ]
+  },
+  "include": [
+    "src",
+    "packages",
+    "scripts",
+    "tests",
+    "vitest.config.ts"
+  ]
+}

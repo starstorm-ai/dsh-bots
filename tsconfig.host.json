@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/index.ts", "src/types.ts", "packages/protocol/src", "packages/core/src", "packages/dsh-plugin/src"]
+}

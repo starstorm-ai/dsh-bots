@@ -1,0 +1,4 @@
+# Add one Host service and its desktop client; preserve all existing providers.
+- insert:
+    - id: dsh-bots
+      name: dsh-bots
