@@ -25,7 +25,7 @@ Bots 直接使用 DSH 的 `ConversationSessionHeader`，把原生“对话／轨
 ## 开发环境
 
 - Node.js 22.19+ 或 24+，pnpm 11.7.0。
-- 已构建的 DeepSeek Harness `0.2.0-rc.2`（commit 见 [compatibility.json](compatibility.json)）。默认复用同级 `../dsh-embedded-codex/upstream/deepseek-harness`。
+- 已构建的 DeepSeek Harness `0.2.0-rc.2`（commit 见 [compatibility.json](compatibility.json)）。默认复用同级 `../dsh-embedded-codex/.tmp/desktop-source`，与 Embedded Codex 桌面实际运行的 checkout 一致。先在 `dsh-embedded-codex` 仓库执行 `pnpm build:desktop`；该命令构建独立的桌面 checkout，不会同步更新 upstream 的类型声明。
 - `pnpm install --frozen-lockfile` 安装本插件依赖；`pnpm setup:dsh` 只在本仓库的 `node_modules` 创建 SDK 链接，不修改 DSH 源码或其他仓库的工作区。
 
 ```powershell
@@ -36,7 +36,7 @@ pnpm test
 pnpm build
 ```
 
-DSH 位于其他路径时设置 `$env:DSH_SOURCE_ROOT='D:\path\deepseek-harness'`。构建产物为 `lib/index.js`（Host）、`lib/client.js`（DSH 动态客户端模块）、共享协议与生成的 Typert Remote 合约。SDK 通过现有宿主提供；浏览器使用宿主的 React 和 Cordis。
+DSH 位于其他路径时设置 `$env:DSH_SOURCE_ROOT='D:\path\deepseek-harness'`（macOS/Linux 使用 `export DSH_SOURCE_ROOT=/path/to/deepseek-harness`），路径必须指向目标 Host 使用的已构建 checkout。Bots 直接复用原生 UI 源码及其类型声明，两者必须来自同一次构建。构建产物为 `lib/index.js`（Host）、`lib/client.js`（DSH 动态客户端模块）、共享协议与生成的 Typert Remote 合约。SDK 通过现有宿主提供；浏览器使用宿主的 React 和 Cordis。
 
 二维码库 `qrcode` 已打包进客户端，只需要作为构建依赖安装。`zod` 被生成的 Typert Host/客户端合约使用，须保留为运行时依赖；检查依赖用途时需同时检查生成产物。
 
@@ -55,9 +55,14 @@ pnpm dev:embedded-codex
 pnpm dev:embedded-codex --embedded-root D:\another\dsh-embedded-codex --install-only
 pnpm dev:embedded-codex --profile web --install-only
 pnpm dev:embedded-codex --home D:\custom\dev-home --cli D:\custom\bin.js --install-only
+pnpm dev:embedded-codex --cli D:\custom\bin.js --source-root D:\custom\built-dsh --install-only
 ```
 
-环境变量对应 `DSH_EMBEDDED_CODEX_ROOT`、`DSH_BOTS_DSH_HOME`、`DSH_BOTS_PROFILE` 和 `DSH_BOTS_DSH_CLI`。只有明确指定 `--launch` 才启动可见桌面窗口。`--skip-build` 只适用于已经验证且未过期的本地构建产物，脚本会验证源码和产物摘要，防止打包失败构建留下的混合文件。依赖均已缓存时可加 `--offline`，避免已有 Codex 插件的其他系统可选包触发网络下载；正常安装的网络超时与重试也有上限。
+环境变量对应 `DSH_EMBEDDED_CODEX_ROOT`、`DSH_BOTS_DSH_HOME`、`DSH_BOTS_PROFILE`、`DSH_BOTS_DSH_CLI` 和 `DSH_SOURCE_ROOT`。`--embedded-root` 同时传给构建和安装；默认桌面 SDK 为其中的 `.tmp/desktop-source`，其他 profile 默认使用 `upstream/deepseek-harness`。指定标准 `apps/cli/lib/bin.js` 路径时，从该 CLI 推导 SDK checkout；自定义 CLI 包装器用 `--source-root` 指定匹配的 SDK，该选项优先于 `DSH_SOURCE_ROOT`。`--dry-run` 会显示最终的 `sourceRoot` 和 `cli`。
+
+若提示 `DSH CLI not built`，先在目标 `dsh-embedded-codex` 仓库运行 `pnpm build:desktop`。若出现 `openSession`、`sidebar.panellist`、`useDisclosure` 缺失或同时涉及 DSH `src` 和 `lib/types` 的类型冲突，检查 `sourceRoot` 和已有 `DSH_SOURCE_ROOT` 是否误指向未重新构建的 upstream；改为桌面实际 checkout 后重新运行 `pnpm dev:embedded-codex`。
+
+只有明确指定 `--launch` 才启动可见桌面窗口。`--skip-build` 只适用于已经验证且未过期的本地构建产物，脚本会验证 SDK checkout 路径、源码（含构建辅助脚本）和产物摘要，防止跨 SDK 复用或打包失败构建留下的混合文件。依赖均已缓存时可加 `--offline`，避免已有 Codex 插件的其他系统可选包触发网络下载；正常安装的网络超时与重试也有上限。
 
 ## 打包和迁移
 
@@ -80,7 +85,9 @@ pnpm dev:embedded-codex --home D:\custom\dev-home --cli D:\custom\bin.js --insta
 
 ## 验证范围
 
-2026-10-22 已通过 `pnpm typecheck`、`pnpm test`（10 个文件、144 项测试）、`pnpm build`、实际 profile 安装，以及隔离真实 Host 的 12 项检查和桌面界面的 13 项交互流程。测试覆盖显式 @ 路由、历史导入与隔离、轮次归组与最终回复边界、上下文收据、去重、跨工作区 Session 选择、废弃授权数据迁移、自动监听与端口回退、邀请刷新/撤销、重复扫码与凭据轮换、草稿恢复、输入法、窄屏和深色主题。桌面回归使用原生 Session 候选菜单，并比较原生 DSH 与 Bots 的页头、Tab 和轨迹工具栏按钮尺寸；通过一次真实工具调用检查过程折叠与最终回复，通过聊天输入框验证邀请二维码，并验证引用回复在聊天和历史搜索中的显示。UI 回归结果写入 `.tmp/ui-smoke-results.json`。未新增浏览器客户端，iOS 真机扫码进群留待客户端完成后验证。
+2026-10-22 SDK 路径修复在 macOS 上执行并通过：`node node_modules/vitest/vitest.mjs run tests/tooling.test.ts`（7 项）、`pnpm typecheck`、`pnpm test`（10 个文件、147 项）、`pnpm build`、`node --import tsx scripts/embedded-codex.mts --dry-run` 和 `pnpm dev:embedded-codex`。完整命令已完成构建、打包、安装，校验原有依赖、Bundle 顺序和配置保留。新增回归覆盖桌面 SDK 默认选择、自定义 CLI/SDK 路径、构建子进程环境传递，以及跨 SDK 和过期产物的 `--skip-build` 拦截。本次未启动 Electron，也未重跑真实 Host/UI smoke；安装后需要重启已有 DSH Host 才加载新版插件。
+
+此前 MVP 验证已通过 `pnpm typecheck`、`pnpm test`（10 个文件、144 项测试）、`pnpm build`、实际 profile 安装，以及隔离真实 Host 的 12 项检查和桌面界面的 13 项交互流程。测试覆盖显式 @ 路由、历史导入与隔离、轮次归组与最终回复边界、上下文收据、去重、跨工作区 Session 选择、废弃授权数据迁移、自动监听与端口回退、邀请刷新/撤销、重复扫码与凭据轮换、草稿恢复、输入法、窄屏和深色主题。桌面回归使用原生 Session 候选菜单，并比较原生 DSH 与 Bots 的页头、Tab 和轨迹工具栏按钮尺寸；通过一次真实工具调用检查过程折叠与最终回复，通过聊天输入框验证邀请二维码，并验证引用回复在聊天和历史搜索中的显示。UI 回归结果写入 `.tmp/ui-smoke-results.json`。未新增浏览器客户端，iOS 真机扫码进群留待客户端完成后验证。
 
 删除助理新增 `bot.delete` 命令，协议次版本升至 1.2，数据库版本不变。回归覆盖权限校验、重复删除、运行中任务拦截、排队派发竞争、观察器停止、历史保留、重启恢复与 Session 释放；真实桌面流程验证确认/取消删除、草稿保留、刷新后状态，以及原 Session 重新用于创建助理。
 

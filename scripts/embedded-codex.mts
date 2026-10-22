@@ -2,7 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, writeF
 import { resolve } from 'node:path'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
-import { parseIntegrationArgs, readProfile, verifyPreservedProfile } from './lib/integration.mts'
+import { integrationEnvironment, parseIntegrationArgs, readProfile, verifyPreservedProfile } from './lib/integration.mts'
 import { ROOT } from './lib/paths.mts'
 import { run, tsx } from './lib/process.mts'
 import { packPlugin } from './pack.mts'
@@ -10,7 +10,7 @@ import { packPlugin } from './pack.mts'
 const options = parseIntegrationArgs(process.argv.slice(2))
 const profile = resolve(options.home, 'profiles', options.profile)
 const manifestPath = resolve(profile, 'package.json')
-const plan = { action: options.remove ? 'remove' : 'build, pack, install', repository: ROOT, embeddedRoot: options.embeddedRoot, home: options.home, profile: options.profile, cli: options.cli, launch: options.launch }
+const plan = { action: options.remove ? 'remove' : 'build, pack, install', repository: ROOT, embeddedRoot: options.embeddedRoot, sourceRoot: options.sourceRoot, home: options.home, profile: options.profile, cli: options.cli, launch: options.launch }
 console.log(JSON.stringify(plan, null, 2))
 if (options.dryRun) process.exit(0)
 if (!existsSync(options.cli)) throw new Error(`DSH CLI not built: ${options.cli}. Run pnpm build:desktop in the embedded-codex repository first.`)
@@ -23,9 +23,8 @@ mkdirSync(backup, { recursive: true })
 for (const name of ['package.json', 'pnpm-lock.yaml', 'cordis.yml', 'cordis.patch.yml', 'pnpm-workspace.yaml']) {
   if (existsSync(resolve(profile, name))) copyFileSync(resolve(profile, name), resolve(backup, name))
 }
-const env = { ...process.env, DSH_HOME: options.home, DSH_BOTS_DSH_CLI: options.cli }
-process.env.DSH_EMBEDDED_CODEX_ROOT = options.embeddedRoot
-const tarball = options.remove ? undefined : await packPlugin(options.skipBuild)
+const env = integrationEnvironment(options)
+const tarball = options.remove ? undefined : await packPlugin(options.skipBuild, env)
 await tsx('scripts/dsh-cli.mts', ['plugin', '--profile', options.profile, options.remove ? 'remove' : 'add', options.remove ? 'dsh-bots' : tarball!, '--config.prefer-offline=true', '--config.fetch-retries=0', '--config.fetch-timeout=15000', ...(options.offline ? ['--config.offline=true'] : [])], env)
 // A prior interrupted add may have saved the dependency before DSH reconciled
 // Bundle activation. Explicitly requesting installation enables our own Bundle
