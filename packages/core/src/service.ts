@@ -190,7 +190,7 @@ export class BotsService {
     const ciphertext = Buffer.concat([cipher.update(JSON.stringify(credentials)), cipher.final()]);
     const key = digest(input.token + input.requestId); this.store.put('receipt', key, { id: key, proof: digest(input.deviceChallenge), expiresAt: new Date(Date.now() + 120_000).toISOString(), encrypted: Buffer.concat([iv, cipher.getAuthTag(), ciphertext]).toString('base64') } satisfies Receipt);
   }
-  redeemInvite(input: { token: string; displayName: string; deviceName: string; requestId?: string; deviceChallenge?: string }, existing?: Principal): Credentials {
+  redeemInvite(input: { token: string; displayName: string; deviceName: string; requestId?: string; deviceChallenge?: string; receiptOnly?: boolean }, existing?: Principal): Credentials {
     str(input.token, 'token', 256); const deviceName = str(input.deviceName, 'deviceName');
     if ((input.requestId === undefined) !== (input.deviceChallenge === undefined)) fail('INVALID_REQUEST', 'requestId and deviceChallenge must be supplied together');
     const events: RoomEvent[] = [];
@@ -205,6 +205,7 @@ export class BotsService {
       const inviterMember = this.store.get<RoomMember>('member', `${room.id}:${inviter.id}`);
       if (inviter.revokedAt || !inviterMember || inviterMember.leftAtRoomSeq !== undefined) fail('INVITE_REVOKED', 'Inviter no longer has room access');
       const replay = this.replayReceipt(input); if (replay) return replay;
+      if (input.receiptOnly) fail('REQUEST_NOT_FOUND', 'No committed invitation receipt');
       let person: Person;
       let device: Device;
       if (existing) {

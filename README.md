@@ -2,7 +2,7 @@
 
 在现有 DeepSeek Harness 内提供单聊、多人群聊、具名鲸鱼助理和局域网聊天邀请。桌面聊天、助理管理及输入框中的邀请二维码都属于同一个 `dsh-bots` 插件。Host 复用 DSH 已有 Workspace、Session 和 Agent Runtime，不启动第二个模型运行时。
 
-本仓库实现非 iOS 的 MVP：共享协议、持久化业务层、Host 插件和嵌入 DSH 的桌面聊天界面。`apps/ios` 与 Android 不在本次实现范围内。LAN API 可用于后续移动客户端及本期自动化集成测试。
+本仓库包含共享协议、持久化业务层、Host 插件、嵌入 DSH 的桌面聊天界面，以及 `apps/ios` 原生 SwiftUI 客户端（iOS 18+）。Android 不在本期范围。iOS 工程、构建方式与真机验收状态见 [iOS 开发说明](docs/ios.md)。
 
 创建助理只需名称、头像和一个已有 DSH Session；工作区由 Session 确定，沿用其预设、模型和权限。助理加入单聊或群聊时使用选中的 Session，不再创建新会话。一个 Session 同时只能绑定一个聊天；加入群聊前需确认共享它已有的模型上下文。创建页面不提供额外的工作区或预设选择、配置摘要和“在 DSH 中打开”入口。
 
@@ -20,7 +20,7 @@ Bots 直接使用 DSH 的 `ConversationSessionHeader`，把原生“对话／轨
 
 创建助理直接复用 DSH `@` 的 `MenuView`、菜单 reducer 和原生候选项样式，支持搜索、方向键、Enter 和 Escape，显示标题、位置和相对时间。所有工作区的已有 Session 都可参与选择，已被其他助理占用的会话除外；没有工作区白名单或单独的 Session 授权记录，也没有连接设置 Tab。
 
-每个聊天输入框提供邀请二维码。首次生成时自动启动独立 HTTPS/WSS 服务，优先使用 49210 或上次端口，占用时自动改用可用端口，保存实际端口供重启恢复。二维码是 `dshbots://invite?data=…`，包含聊天、局域网候选地址、短期邀请和 TLS 指纹，由未来 iOS 客户端处理。邀请有效期 10 分钟，可供多人加入；刷新使旧码失效，关闭弹窗不关闭服务。首次加入的新成员会让单聊原地转为群聊，保留历史和 Session；新成员默认可调用聊天里的助理，后续显式撤销仍生效。未增加浏览器加入页或聊天客户端。
+每个聊天输入框提供邀请二维码。首次生成时自动启动独立 HTTPS/WSS 服务，优先使用 49210 或上次端口，占用时自动改用可用端口，保存实际端口供重启恢复。二维码是 `dshbots://invite?data=…`，包含聊天、局域网候选地址、短期邀请和 TLS 指纹，由原生 iOS 客户端处理。邀请有效期 10 分钟，可供多人加入；刷新使旧码失效，关闭弹窗不关闭服务。首次加入的新成员会让单聊原地转为群聊，保留历史和 Session；新成员默认可调用聊天里的助理，后续显式撤销仍生效。未增加浏览器加入页或聊天客户端。
 
 ## 开发环境
 
@@ -78,12 +78,15 @@ pnpm dev:embedded-codex --cli D:\custom\bin.js --source-root D:\custom\built-dsh
 | `packages/core/src` | SQLite 持久化、身份/群成员权限、消息与任务队列、上下文注入记录、重连恢复 |
 | `packages/dsh-plugin/src` | Cordis Host 服务、DSH Session 适配、自动 HTTPS/WSS 监听、TLS 身份及 iOS 邀请 |
 | `packages/desktop-ui/src` | Bots 桌面聊天、助理、原生 Session 选择菜单和聊天邀请 |
-| `scripts` | SDK 连接、构建、打包、现有 dev DSH 安装/移除 |
+| `apps/ios` | SwiftUI、精确证书信任、Keychain、SQLite、HTTPS/WSS 与恢复 |
+| `scripts` | SDK 连接、构建、打包、iOS 集成测试、现有 dev DSH 安装/移除 |
 | `tests` | 业务与传输集成测试、开发安装保护检查 |
 
-完整产品边界见 [设计文档](docs/design.md)。iOS 前台双向同步的后端接口在本仓库提供；iOS App、系统通知/APNs、跨公网中继、文件附件与 Android 客户端均需后续交付。
+完整产品边界见 [设计文档](docs/design.md)。iOS 源码和前台同步接口在本仓库提供；系统通知/APNs、跨公网中继、文件附件传输与 Android 客户端仍在后续范围。真机和发布验证不等同于源码实现，状态见 [iOS 开发说明](docs/ios.md)。
 
 ## 验证范围
+
+本次 iOS 验证及其精确命令单独记录在 [docs/ios.md](docs/ios.md)。下列为此前桌面交付记录，不代表本次已安装或验证新 iOS 版本。
 
 2026-10-22 SDK 路径修复在 macOS 上执行并通过：`node node_modules/vitest/vitest.mjs run tests/tooling.test.ts`（7 项）、`pnpm typecheck`、`pnpm test`（10 个文件、147 项）、`pnpm build`、`node --import tsx scripts/embedded-codex.mts --dry-run` 和 `pnpm dev:embedded-codex`。完整命令已完成构建、打包、安装，校验原有依赖、Bundle 顺序和配置保留。新增回归覆盖桌面 SDK 默认选择、自定义 CLI/SDK 路径、构建子进程环境传递，以及跨 SDK 和过期产物的 `--skip-build` 拦截。本次未启动 Electron，也未重跑真实 Host/UI smoke；安装后需要重启已有 DSH Host 才加载新版插件。
 

@@ -54,6 +54,7 @@
     "LICENSE",
     "docs/protocol.md",
     "docs/lan-api.md",
+    "docs/ios.md",
     "THIRD_PARTY_NOTICES.md"
   ],
   "license": "MIT",
@@ -98,7 +99,9 @@
     "dev:install": "tsx scripts/embedded-codex.mts --install-only",
     "dev:remove": "tsx scripts/embedded-codex.mts --remove",
     "prepack": "tsx scripts/build.mts",
-    "test:ui": "tsx scripts/smoke-ui.mts"
+    "test:ui": "tsx scripts/smoke-ui.mts",
+    "test:ios": "tsx scripts/test-ios.mts",
+    "build:ios": "xcodebuild -project apps/ios/DSHBots.xcodeproj -scheme DSHBots -sdk iphoneos -destination generic/platform=iOS -derivedDataPath .tmp/ios-derived CODE_SIGNING_ALLOWED=NO build"
   },
   "dependencies": {
     "@peculiar/x509": "^1.14.3",

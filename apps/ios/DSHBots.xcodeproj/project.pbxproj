@@ -1,0 +1,233 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0000000000000000000000C8 /* DSHBots/ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000064 /* DSHBots/ChatView.swift */; };
+		0000000000000000000000C9 /* DSHBots/DSHBotsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000065 /* DSHBots/DSHBotsApp.swift */; };
+		0000000000000000000000CA /* DSHBots/DSHTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000066 /* DSHBots/DSHTheme.swift */; };
+		0000000000000000000000CB /* DSHBots/ManagementViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000067 /* DSHBots/ManagementViews.swift */; };
+		0000000000000000000000CC /* DSHBots/MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000068 /* DSHBots/MarkdownView.swift */; };
+		0000000000000000000000CD /* DSHBots/PairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000069 /* DSHBots/PairingView.swift */; };
+		00000000000000000000012D /* ../../packages/desktop-ui/src/assets/whale-avatars.png in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000012C /* ../../packages/desktop-ui/src/assets/whale-avatars.png */; };
+		000000000000000000000132 /* DSHBotsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 000000000000000000000131 /* DSHBotsCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		000000000000000000000064 /* DSHBots/ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/ChatView.swift; sourceTree = "<group>"; };
+		000000000000000000000065 /* DSHBots/DSHBotsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/DSHBotsApp.swift; sourceTree = "<group>"; };
+		000000000000000000000066 /* DSHBots/DSHTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/DSHTheme.swift; sourceTree = "<group>"; };
+		000000000000000000000067 /* DSHBots/ManagementViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/ManagementViews.swift; sourceTree = "<group>"; };
+		000000000000000000000068 /* DSHBots/MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/MarkdownView.swift; sourceTree = "<group>"; };
+		000000000000000000000069 /* DSHBots/PairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSHBots/PairingView.swift; sourceTree = "<group>"; };
+		00000000000000000000012C /* ../../packages/desktop-ui/src/assets/whale-avatars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "../../packages/desktop-ui/src/assets/whale-avatars.png"; sourceTree = "<group>"; };
+		00000000000000000000012E /* DSHBots/Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DSHBots/Info.plist; sourceTree = "<group>"; };
+		00000000000000000000012F /* DSHBots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = DSHBots.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		000000000000000000000135 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000132 /* DSHBotsCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		000000000000000000000136 = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000064 /* DSHBots/ChatView.swift */,
+				000000000000000000000065 /* DSHBots/DSHBotsApp.swift */,
+				000000000000000000000066 /* DSHBots/DSHTheme.swift */,
+				000000000000000000000067 /* DSHBots/ManagementViews.swift */,
+				000000000000000000000068 /* DSHBots/MarkdownView.swift */,
+				000000000000000000000069 /* DSHBots/PairingView.swift */,
+				00000000000000000000012C /* ../../packages/desktop-ui/src/assets/whale-avatars.png */,
+				00000000000000000000012E /* DSHBots/Info.plist */,
+				00000000000000000000012F /* DSHBots.app */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0000000000000000000001F4 /* DSHBots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0000000000000000000001A4 /* Build configuration list for PBXNativeTarget "DSHBots" */;
+			buildPhases = (
+				000000000000000000000133 /* Sources */,
+				000000000000000000000135 /* Frameworks */,
+				000000000000000000000134 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DSHBots;
+			packageProductDependencies = (
+				000000000000000000000131 /* DSHBotsCore */,
+			);
+			productName = DSHBots;
+			productReference = 00000000000000000000012F /* DSHBots.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0000000000000000000001F5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2660;
+			};
+			buildConfigurationList = 0000000000000000000001A5 /* Build configuration list for PBXProject "DSHBots" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = zh_CN;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				zh_CN,
+				Base,
+			);
+			mainGroup = 000000000000000000000136;
+			packageReferences = (
+				000000000000000000000130 /* XCLocalSwiftPackageReference "." */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0000000000000000000001F4 /* DSHBots */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		000000000000000000000134 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000000012D /* ../../packages/desktop-ui/src/assets/whale-avatars.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		000000000000000000000133 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000000C8 /* DSHBots/ChatView.swift in Sources */,
+				0000000000000000000000C9 /* DSHBots/DSHBotsApp.swift in Sources */,
+				0000000000000000000000CA /* DSHBots/DSHTheme.swift in Sources */,
+				0000000000000000000000CB /* DSHBots/ManagementViews.swift in Sources */,
+				0000000000000000000000CC /* DSHBots/MarkdownView.swift in Sources */,
+				0000000000000000000000CD /* DSHBots/PairingView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		000000000000000000000190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6XAY3JP43W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				INFOPLIST_FILE = DSHBots/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dsh.bots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		000000000000000000000191 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6XAY3JP43W;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				INFOPLIST_FILE = DSHBots/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dsh.bots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		00000000000000000000019A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		00000000000000000000019B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0000000000000000000001A4 /* Build configuration list for PBXNativeTarget "DSHBots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000190 /* Debug */,
+				000000000000000000000191 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0000000000000000000001A5 /* Build configuration list for PBXProject "DSHBots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000019A /* Debug */,
+				00000000000000000000019B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		000000000000000000000130 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		000000000000000000000131 /* DSHBotsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 000000000000000000000130 /* XCLocalSwiftPackageReference "." */;
+			productName = DSHBotsCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 0000000000000000000001F5 /* Project object */;
+}

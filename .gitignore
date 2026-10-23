@@ -6,3 +6,12 @@ coverage/
 *.tsbuildinfo
 *.tgz
 .DS_Store
+
+# iOS local build, signing and per-developer state
+apps/ios/.build/
+apps/ios/.swiftpm/
+**/xcuserdata/
+*.xcuserstate
+*.ipa
+*.xcarchive/
+DerivedData/

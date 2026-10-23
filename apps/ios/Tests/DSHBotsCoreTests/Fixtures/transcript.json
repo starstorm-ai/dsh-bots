@@ -1,0 +1,590 @@
+[
+  {
+    "name": "interleaved native turns",
+    "room": {
+      "room": {
+        "id": "room",
+        "seq": 50,
+        "kind": "group"
+      },
+      "messages": [
+        {
+          "id": "commentary",
+          "seq": 1,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "commentary"
+            }
+          ],
+          "text": "commentary",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "commentary",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "answer"
+          }
+        },
+        {
+          "id": "other",
+          "seq": 2,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "other"
+            }
+          ],
+          "text": "other",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "other",
+          "sessionMessageId": "other",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "other"
+          }
+        },
+        {
+          "id": "human",
+          "seq": 3,
+          "roomId": "room",
+          "authorKind": "person",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "human"
+            }
+          ],
+          "text": "human",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "sessionMessageId": "human",
+          "source": "assistant"
+        },
+        {
+          "id": "tool",
+          "seq": 4,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "tool"
+            }
+          ],
+          "text": "tool",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "tool",
+          "source": "tool",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "answer"
+          },
+          "blocks": [
+            {
+              "type": "tool",
+              "name": "Search",
+              "status": "completed",
+              "callId": "call",
+              "summary": "found"
+            }
+          ]
+        },
+        {
+          "id": "answer",
+          "seq": 5,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "answer"
+            }
+          ],
+          "text": "answer",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "answer",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "answer"
+          }
+        },
+        {
+          "id": "next",
+          "seq": 6,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "next"
+            }
+          ],
+          "text": "next",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "next",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-20",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "next"
+          }
+        }
+      ],
+      "invocations": [],
+      "streams": [],
+      "members": [],
+      "bindings": [],
+      "bots": [],
+      "grants": [],
+      "interactions": [],
+      "contexts": [],
+      "cutoff": 50,
+      "readSeq": 0,
+      "syncSeq": 0
+    },
+    "expected": [
+      {
+        "id": "binding/turn-10",
+        "kind": "turn",
+        "status": "completed",
+        "process": [
+          "commentary",
+          "tool"
+        ],
+        "answer": "answer",
+        "streams": []
+      },
+      {
+        "id": "other/turn-10",
+        "kind": "turn",
+        "status": "completed",
+        "process": [],
+        "answer": "other",
+        "streams": []
+      },
+      {
+        "id": "human",
+        "kind": "message",
+        "text": "human"
+      },
+      {
+        "id": "binding/turn-20",
+        "kind": "turn",
+        "status": "completed",
+        "process": [],
+        "answer": "next",
+        "streams": []
+      }
+    ]
+  },
+  {
+    "name": "legacy boundaries",
+    "room": {
+      "room": {
+        "id": "room",
+        "seq": 50,
+        "kind": "group"
+      },
+      "messages": [
+        {
+          "id": "u1",
+          "seq": 1,
+          "roomId": "room",
+          "authorKind": "person",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "u1"
+            }
+          ],
+          "text": "u1",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "u1",
+          "source": "desktop"
+        },
+        {
+          "id": "tool",
+          "seq": 2,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "tool"
+            }
+          ],
+          "text": "tool",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "tool",
+          "source": "tool"
+        },
+        {
+          "id": "old answer",
+          "seq": 3,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "old answer"
+            }
+          ],
+          "text": "old answer",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "old answer",
+          "source": "assistant"
+        },
+        {
+          "id": "u2",
+          "seq": 4,
+          "roomId": "room",
+          "authorKind": "person",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "u2"
+            }
+          ],
+          "text": "u2",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "u2",
+          "source": "desktop"
+        },
+        {
+          "id": "second",
+          "seq": 5,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "second"
+            }
+          ],
+          "text": "second",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "second",
+          "source": "assistant"
+        }
+      ],
+      "invocations": [],
+      "streams": [],
+      "members": [],
+      "bindings": [],
+      "bots": [],
+      "grants": [],
+      "interactions": [],
+      "contexts": [],
+      "cutoff": 50,
+      "readSeq": 0,
+      "syncSeq": 0
+    },
+    "expected": [
+      {
+        "id": "u1",
+        "kind": "message",
+        "text": "u1"
+      },
+      {
+        "id": "binding/input-u1",
+        "kind": "turn",
+        "status": "completed",
+        "process": [
+          "tool"
+        ],
+        "answer": "old answer",
+        "streams": []
+      },
+      {
+        "id": "u2",
+        "kind": "message",
+        "text": "u2"
+      },
+      {
+        "id": "binding/input-u2",
+        "kind": "turn",
+        "status": "completed",
+        "process": [],
+        "answer": "second",
+        "streams": []
+      }
+    ]
+  },
+  {
+    "name": "first streamed turn",
+    "room": {
+      "room": {
+        "id": "room",
+        "seq": 50,
+        "kind": "group"
+      },
+      "messages": [],
+      "invocations": [
+        {
+          "id": "task",
+          "bindingId": "binding",
+          "roomId": "room",
+          "messageId": "human",
+          "status": "running"
+        }
+      ],
+      "streams": [
+        {
+          "roomId": "room",
+          "bindingId": "binding",
+          "invocationId": "task",
+          "messageId": "stream",
+          "attemptId": "a",
+          "streamRevision": 1,
+          "index": 0,
+          "text": "Working",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "running",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "finalMessageId": "answer"
+          }
+        }
+      ],
+      "members": [],
+      "bindings": [],
+      "bots": [],
+      "grants": [],
+      "interactions": [],
+      "contexts": [],
+      "cutoff": 50,
+      "readSeq": 0,
+      "syncSeq": 0
+    },
+    "expected": [
+      {
+        "id": "binding/turn-10",
+        "kind": "turn",
+        "status": "running",
+        "process": [],
+        "answer": null,
+        "streams": [
+          "stream"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "recovery settles stale running turn",
+    "room": {
+      "room": {
+        "id": "room",
+        "seq": 50,
+        "kind": "group"
+      },
+      "messages": [
+        {
+          "id": "partial",
+          "seq": 2,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "partial"
+            }
+          ],
+          "text": "partial",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "partial",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "running",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "finalMessageId": "answer"
+          },
+          "invocationId": "task"
+        }
+      ],
+      "invocations": [
+        {
+          "id": "task",
+          "bindingId": "binding",
+          "roomId": "room",
+          "messageId": "human",
+          "status": "recovery_required"
+        }
+      ],
+      "streams": [],
+      "members": [],
+      "bindings": [],
+      "bots": [],
+      "grants": [],
+      "interactions": [],
+      "contexts": [],
+      "cutoff": 50,
+      "readSeq": 0,
+      "syncSeq": 0
+    },
+    "expected": [
+      {
+        "id": "binding/turn-10",
+        "kind": "turn",
+        "status": "recovery_required",
+        "process": [
+          "partial"
+        ],
+        "answer": null,
+        "streams": []
+      }
+    ]
+  },
+  {
+    "name": "persisted stream suppression scoped by binding",
+    "room": {
+      "room": {
+        "id": "room",
+        "seq": 50,
+        "kind": "group"
+      },
+      "messages": [
+        {
+          "id": "saved",
+          "seq": 3,
+          "roomId": "room",
+          "authorKind": "bot",
+          "authorId": "bot",
+          "authorName": "鲸鱼",
+          "parts": [
+            {
+              "type": "text",
+              "text": "saved"
+            }
+          ],
+          "text": "saved",
+          "createdAt": "2026-10-22T01:00:00Z",
+          "bindingId": "binding",
+          "sessionMessageId": "shared",
+          "source": "assistant",
+          "turn": {
+            "id": "turn-10",
+            "number": 1,
+            "status": "completed",
+            "startedAt": "2026-10-22T01:00:00Z",
+            "endedAt": "2026-10-22T01:00:12Z",
+            "finalMessageId": "answer"
+          }
+        }
+      ],
+      "invocations": [],
+      "streams": [
+        {
+          "roomId": "room",
+          "bindingId": "binding",
+          "messageId": "shared",
+          "attemptId": "a",
+          "streamRevision": 1,
+          "index": 0,
+          "text": "Working"
+        },
+        {
+          "roomId": "room",
+          "bindingId": "other",
+          "messageId": "shared",
+          "attemptId": "a",
+          "streamRevision": 1,
+          "index": 0,
+          "text": "Working"
+        }
+      ],
+      "members": [],
+      "bindings": [],
+      "bots": [],
+      "grants": [],
+      "interactions": [],
+      "contexts": [],
+      "cutoff": 50,
+      "readSeq": 0,
+      "syncSeq": 0
+    },
+    "expected": [
+      {
+        "id": "binding/turn-10",
+        "kind": "turn",
+        "status": "completed",
+        "process": [
+          "saved"
+        ],
+        "answer": null,
+        "streams": []
+      },
+      {
+        "id": "other/stream-a",
+        "kind": "turn",
+        "status": "running",
+        "process": [],
+        "answer": null,
+        "streams": [
+          "shared"
+        ]
+      }
+    ]
+  }
+]

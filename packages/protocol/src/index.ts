@@ -1,7 +1,7 @@
 import { commandValidationError } from './validate.ts';
 export { COMMAND_SCHEMA } from './validate.ts';
 /** Public wire types. IDs are opaque; identity is always derived from credentials. */
-export const PROTOCOL_VERSION = { major: 1, minor: 2 } as const;
+export const PROTOCOL_VERSION = { major: 1, minor: 3 } as const;
 export type Id = string;
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 /** Strip optional undefined properties and enforce the public JSON boundary. */

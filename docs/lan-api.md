@@ -8,14 +8,14 @@ Production binds local interfaces automatically. The QR advertises actual local 
 
 `network.json` stores only activation state and the selected port. `tls-identity.json` stores a persistent P-256 key and self-signed certificate in the plugin's private state directory. `room.invite.create` returns an `InviteTicket` with `uri` and `qrPayload`. The QR encodes `dshbots://invite?data=<percent-encoded qrPayload>`. The JSON payload contains `protocol: 1`, `kind: "invite"`, `hostId`, `storeEpoch`, `addresses`, `fingerprint`, `token`, `expiresAt`, `roomId` and `historyVisibility: "full"`.
 
-The iOS client must validate the certificate against the trusted QR fingerprint before submitting the invitation over HTTPS. `fingerprint` is lowercase hex SHA-256 of certificate DER bytes. Trust is specific to that Host and certificate; a changed certificate requires scanning a fresh trusted invitation. Never disable certificate validation globally. This release only prepares the desktop and protocol; the iOS scanner, Keychain storage and real-device integration are deferred.
+The iOS client must validate the certificate against the trusted QR fingerprint before submitting the invitation over HTTPS. `fingerprint` is lowercase hex SHA-256 of certificate DER bytes. Trust is specific to that Host and certificate; a changed certificate requires scanning a fresh trusted invitation. Never disable certificate validation globally. The native scanner, Keychain storage and Swift transport are implemented in `apps/ios`; see [iOS validation](ios.md) for the outstanding real-device checks. Owner pairing remains intentionally unsupported.
 
 All JSON requests use `Content-Type: application/json`. Authenticated calls use `Authorization: Bearer <accessToken>`. Tokens in URLs are rejected, cookies are not used, and responses are `Cache-Control: no-store`. Browser origins must exactly match an advertised HTTPS origin; native clients omit Origin. The listener implements no wildcard CORS policy.
 
 | Method | Endpoint | Request / result |
 |---|---|---|
-| GET | `/v1/health` | Public `{protocol:1,status:"ok"}` only |
-| POST | `/v1/invite` | `{token,displayName,deviceName,requestId?,deviceChallenge?}` → credentials; optional existing bearer preserves the member's identity |
+| GET | `/v1/health` | Public `{protocol:1,status:"ok",features:["receipt-only"]}` only |
+| POST | `/v1/invite` | `{token,displayName,deviceName,requestId?,deviceChallenge?,receiptOnly?}` → credentials; optional existing bearer preserves the member's identity |
 | POST | `/v1/refresh` | `{refreshToken}` → new access/refresh credentials; old tokens cease working |
 | GET | `/v1/bootstrap` | Authorized identity, rooms and capabilities; members do not receive the Host's workspace/session enumeration |
 | GET | `/v1/snapshot?roomId=…` | Authorized room snapshot including durable cutoff and live stream snapshot |
@@ -24,6 +24,8 @@ All JSON requests use `Content-Type: application/json`. Authenticated calls use 
 | POST | `/v1/command` | Shared protocol Command → command result |
 
 Invitations last ten minutes and can admit several members. Creating a fresh invitation revokes earlier invitations for that room; explicit revocation and expiry block new joins without disconnecting existing members. Removing a member also revokes the current invitation. The first new member joining a direct chat converts it into a group atomically, preserving the room ID, history and Session bindings.
+
+`receiptOnly: true` requests only an already committed invitation receipt, with the same token/requestId/deviceChallenge and no bearer header. A missing receipt returns `REQUEST_NOT_FOUND` without creating an identity or changing membership. This lets iOS recover a lost join response even when joining rotated the previous bearer. The `receipt-only` health feature prevents new clients from sending this option to older Hosts that would ignore it. Protocol minor is 1.3; major and database schema remain unchanged.
 
 A client retry supplies the same `requestId` and client-held `deviceChallenge` together. The Host replays the encrypted receipt for up to two minutes without creating another identity; a different challenge for that request is rejected. An expired receipt or one superseded by a later credential rotation returns `REQUEST_EXPIRED`; start a new request with the device's current credentials. For a device already authenticated to this Host, send its bearer token to reuse its Person and Device, preserve existing membership and avoid restoring any explicitly denied grants. Joining rotates that device's credentials, so replace old credentials and reconnect its WSS stream. New unauthenticated devices receive independent member identities; nicknames never merge identities.
 
@@ -43,4 +45,4 @@ Commands use the shared envelope `{version:1,kind:"command",id,type,payload}`. R
 
 Limits: HTTP/WebSocket payload 64 KiB, 64 simultaneous WebSocket connections, 64 room subscriptions per connection, 32 queued socket commands, and 2 MiB socket send backlog. Per-IP rates are 600 ordinary HTTP requests/minute, 30 credential requests/minute, 120 WebSocket upgrades/minute and 600 frames/minute. The server uses TLS 1.2+, request/header timeouts and a 15-second heartbeat. Slow clients reconnect and replay durable history. Disabling/unloading the plugin terminates sockets, removes event subscribers and releases the listener.
 
-The tests in `tests/lan.spec.ts` exercise real local HTTPS/WSS, persistent certificate identity, invitation receipt retries, token rotation, room authorization, catch-up/live ordering, revocation and listener cleanup. LAN firewall, real Wi-Fi/hotspot connectivity and future iOS certificate handling still require device-level validation.
+The tests in `tests/lan.spec.ts` exercise real local HTTPS/WSS, persistent certificate identity, invitation receipt retries, token rotation, room authorization, catch-up/live ordering, revocation and listener cleanup. LAN firewall, real Wi-Fi/hotspot connectivity and iOS ATS/certificate handling still require device-level validation; macOS URLSession transport is covered by `pnpm test:ios`.

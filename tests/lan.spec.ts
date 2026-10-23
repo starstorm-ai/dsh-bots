@@ -86,7 +86,7 @@ describe('TLS LAN transport', () => {
   });
   it('persists a certificate and exposes only health without credentials', async () => {
     const f = await fixture(); const health = await http(f.origin, '/v1/health');
-    expect(health.data).toEqual({ protocol: 1, status: 'ok' }); expect(health.fingerprint).toBe(f.info.fingerprint);
+    expect(health.data).toEqual({ protocol: 1, status: 'ok', features: ['receipt-only'] }); expect(health.fingerprint).toBe(f.info.fingerprint);
     expect((await http(f.origin, '/v1/bootstrap')).status).toBe(401);
     expect((await http(f.origin, '/v1/health?token=secret')).status).toBe(400);
     expect((await http(f.origin, '/v1/health', { origin: 'https://attacker.example' })).status).toBe(403);
@@ -164,5 +164,17 @@ describe('TLS LAN transport', () => {
     client.ws.send(JSON.stringify({ kind: 'ping', id: 'barrier' })); await client.next(value => value.kind === 'pong' && value.id === 'barrier');
     expect(client.messages.some(value => value.type === 'message.created' && value.payload.text === 'Private after removal')).toBe(false);
     expect((await http(f.origin, `/v1/history?roomId=${room.id}`, { token: guest.accessToken })).status).toBe(403);
+  });
+});
+
+describe('iOS invitation receipt recovery', () => {
+  it('recovers a lost join response without using the rotated old bearer or creating a new identity', async () => {
+    const f = await fixture();
+    const room = await f.service.command(f.owner, { type: 'room.create', payload: { kind: 'group', title: 'Receipt' } }) as Room;
+    const ticket = await f.service.command(f.owner, { type: 'room.invite.create', payload: { roomId: room.id } }) as Ticket;
+    const body = { token: ticket.token, displayName: 'Phone', deviceName: 'iPhone', requestId: 'receipt-only', deviceChallenge: 'proof' };
+    expect((await http(f.origin, '/v1/invite', { body: { ...body, receiptOnly: true } })).data.error.code).toBe('REQUEST_NOT_FOUND');
+    const creds = (await http(f.origin, '/v1/invite', { body })).data;
+    expect((await http(f.origin, '/v1/invite', { body: { ...body, receiptOnly: true } })).data).toEqual(creds);
   });
 });

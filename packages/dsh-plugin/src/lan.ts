@@ -188,13 +188,13 @@ export class LanServer {
     try {
       this.checkOrigin(request); const url = this.requestUrl(request); const method = request.method;
       const remote = request.socket.remoteAddress ?? 'unknown'; this.rate(`http:${remote}`, 600);
-      if (method === 'GET' && url.pathname === '/v1/health') { this.json(response, 200, { protocol: 1, status: 'ok' }); return; }
+      if (method === 'GET' && url.pathname === '/v1/health') { this.json(response, 200, { protocol: 1, status: 'ok', features: ['receipt-only'] }); return; }
       if (method === 'POST' && ['/v1/invite', '/v1/refresh'].includes(url.pathname)) {
         this.rate(`credential:${remote}`, 30); const body = await this.body(request);
         const token = optionalText(body.token, 'token');
         const common = { token: token ?? '', deviceName: optionalText(body.deviceName, 'deviceName') ?? '', requestId: optionalText(body.requestId, 'requestId'), deviceChallenge: optionalText(body.deviceChallenge, 'deviceChallenge') };
         const existing = this.bearer(request, false);
-        const result = url.pathname === '/v1/refresh' ? this.service.refresh(text(body.refreshToken, 'refreshToken')) : this.service.redeemInvite({ ...common, displayName: optionalText(body.displayName, 'displayName') ?? '' }, existing ? this.service.authenticate(existing) : undefined);
+        const result = url.pathname === '/v1/refresh' ? this.service.refresh(text(body.refreshToken, 'refreshToken')) : this.service.redeemInvite({ ...common, displayName: optionalText(body.displayName, 'displayName') ?? '', receiptOnly: body.receiptOnly === true }, existing ? this.service.authenticate(existing) : undefined);
         this.json(response, 200, result); return;
       }
       const principal = this.service.authenticate(this.bearer(request)!);

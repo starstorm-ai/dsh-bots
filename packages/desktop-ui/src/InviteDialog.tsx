@@ -5,7 +5,7 @@ import { ErrorNotice, Modal } from './components.tsx'
 import { errorText, type BotsClientModel } from './model.ts'
 import type { Translate } from './locales.ts'
 
-/** The URI is consumed by the future iOS client. It is never stored in browser persistence. */
+/** The URI is consumed by the native iOS client. It is never stored in browser persistence. */
 export function InviteDialog({ room, roomId, model, close, t }: { room?: Room; roomId: string; model: BotsClientModel; close(): void; t: Translate }): ReactNode {
   const [ticket, setTicket] = useState<InviteTicket>()
   const [image, setImage] = useState<string>()

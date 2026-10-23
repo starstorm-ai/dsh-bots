@@ -1,6 +1,6 @@
 # dsh-bots：局域网聊天助理 MVP 计划与代码设计
 
-日期：2026-10-22。本文保留 MVP 的产品与架构设计基线；本 `dsh-bots` 仓库已实现本次约定的非 iOS 范围：共享协议、持久化业务层、DSH Host 插件、桌面聊天、助理管理与 iOS 邀请二维码；本期不增加浏览器客户端。`apps/ios` 和 Android 客户端不在本次交付范围。宿主基于 DSH `dsh-v0.2.0-rc.2` 与 `dsh-embedded-codex`。
+日期：2026-10-22。本文保留 MVP 的产品与架构设计基线；本 `dsh-bots` 仓库已实现本次约定的非 iOS 范围：共享协议、持久化业务层、DSH Host 插件、桌面聊天、助理管理与 iOS 邀请二维码；本期不增加浏览器客户端。后续按用户明确要求新增了 `apps/ios` 原生客户端；实现与验证状态见 [iOS 开发说明](ios.md)。Android 仍不实现。宿主基于 DSH `dsh-v0.2.0-rc.2` 与 `dsh-embedded-codex`。
 
 下文保留的接口名、目录与移动端细节属于设计参考；实际命令、数据结构及路由以 [共享协议](protocol.md) 和 [LAN API](lan-api.md) 为准。已执行的验证及尚待完成的跨平台、同 Wi-Fi/热点和移动真机验证见 [README](../README.md)。
 
